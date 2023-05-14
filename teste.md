@@ -15,9 +15,9 @@ Com essas técnicas, é possível criar um modelo capaz de identificar o sentime
 
 O primeiro passo do pré-processamento de texto é a limpeza dos dados. Para isso, aplicamos uma série de técnicas para remover informações desnecessárias dos comentários coletados. Inicialmente, realizamos a remoção dos comentários feitos pela própria conta do BTG Pactual, visto que eles não representam a opinião de clientes e podem enviesar os resultados da análise.
 
-Além disso, eliminamos os comentários nulos, ou seja, aqueles que não possuem texto ou que foram apagados. Também deixamos apenas as interações do tipo comentário e resposta, removendo curtidas e outras formas de interação que não trazem informações relevantes para a análise de sentimentos.
+Além disso, eliminamos os comentários nulos, ou seja, aqueles que não possuem texto. Também deixamos apenas as interações do tipo comentário e resposta para filtrarmos nossa base apenas com informações relevantes para a análise de sentimentos.
 
-Por fim, realizamos a remoção das aspas duplas que estavam presentes nos nomes das colunas, transformando-as de "texto" para 'texto', por exemplo, para que o dataset esteja em um formato uniforme. Dessa forma, garantimos que o corpus esteja devidamente limpo e pronto para ser processado pelas próximas etapas do pré-processamento.
+Por fim, realizamos a remoção das aspas duplas que estavam presentes nos nomes das colunas, transformando-as de "texto" para texto, por exemplo, para que o dataset esteja em um formato uniforme. Dessa forma, garantimos que o corpus esteja devidamente limpo e pronto para ser processado pelas próximas etapas do pré-processamento.
 
 ### • Tokenização e Remoção de Stop Words
 
@@ -31,23 +31,47 @@ Na implementação desenvolvida pelo grupo, foi utilizado o conjunto de stop wor
 
 ### • Bag of Words
 
-Depois de aplicarmos as funções de tokenização e remoção de stop words, chegamos à última etapa proposta para o pré-processamento, que é a técnica do Bag of Words. O método bag of words é uma técnica de pré-processamento de texto utilizada para representar um corpus como uma coleção de palavras ou termos, ignorando a ordem das palavras e a estrutura gramatical do texto. O objetivo é transformar o corpus em um vetor de palavras e suas respectivas frequências, para que possa ser facilmente manipulado por algoritmos de aprendizado de máquina.
+Depois de aplicarmos as funções de tokenização e remoção de stop words, chegamos à última etapa proposta para o pré-processamento, que é a técnica do Bag of Words (BoW). O método bag of words é uma técnica de pré-processamento de texto utilizada para representar um corpus como uma coleção de palavras ou termos, ignorando a ordem das palavras e a estrutura gramatical do texto. O objetivo é transformar o corpus em um vetor de palavras e suas respectivas frequências, para que possa ser facilmente manipulado por algoritmos de aprendizado de máquina.
 
-Em nossa aplicação, criamos uma função chamada "bag_of_words" que utiliza o método bag of words na coluna de textos da base de dados, usando a função bow_dataframe para contar a frequência de cada palavra. O resultado da aplicação do método bag of words é uma tabela em que cada linha representa uma palavra ou termo do corpus, e as colunas contêm informações sobre a frequência da palavra em cada texto do corpus. Essa tabela pode ser usada como entrada para algoritmos de aprendizado de máquina que buscam identificar padrões ou tendências no uso de palavras em um conjunto de textos.
+Em nossa aplicação, implementamos uma função denominada "bag_of_words". Essa função utiliza a técnica de BoW para extrair a frequência de cada palavra presente na coluna "Frases_sem_stop_words" do conjunto de dados. Essa coluna contém os comentários dos clientes do BTG Pactual, que foram previamente processados com tokenização e remoção de stop words. A contagem é realizada utilizando a função "bow_dataframe". O resultado da aplicação do método BoW é uma tabela em que cada linha representa uma palavra ou termo do corpus, e as colunas contêm informações sobre a frequência da palavra em cada texto do corpus. Essa tabela pode ser usada como entrada para algoritmos de aprendizado de máquina que buscam identificar padrões ou tendências no uso de palavras em um conjunto de textos.
 
 ## **Resultados:**
 
 A seguir, apresentaremos os resultados obtidos dos pré-processamentos e algumas análises de dados, ilustrando-os com gráficos.
 
-### • Gráfico do resultado de cada etapa do pré-processamento:
-Quando recebemos a base de dados da equipe do BTG Pactual, constatamos que havia um total de 522.820 palavras na coluna "texto", a qual corresponde aos comentários postados nas publicações da página oficial do banco no Instagram. Entretanto, ao realizar as etapas de pré-processamento, como limpeza, tokenização, remoção de stop words e bag of words, o número de palavras foi reduzido. Apresentamos abaixo um gráfico que ilustra essas mudanças ao longo do processo de pré-processamento.
+### • Gráfico que representa a porcentagem de comentários feitos pelo BTG Pactual e todos os outros usuários do Instagram:
 
-![image](https://github.com/camilaanacleto/systemInformation/assets/68927480/cd65042a-2834-4a70-be46-eac8fd17e963)
+Para garantir a precisão da nossa análise sobre a percepção dos clientes do BTG Pactual no Instagram, foi realizada uma etapa inicial de limpeza dos dados. Nessa etapa, removemos os comentários feitos pelo próprio @btgpactual, que correspondiam a 48,6% do total de comentários do dataset. Se tais comentários fossem incluídos na análise, os resultados poderiam estar enviesados e não refletiriam adequadamente a opinião dos clientes reais do banco. Para visualizar essa informação, apresentamos abaixo um gráfico que representa a porcentagem de comentários feitos pelo BTG Pactual e pelos demais usuários do Instagram:
+
+![image](https://github.com/camilaanacleto/systemInformation/assets/68927480/40abe2bf-25e6-4ea5-bb89-83bd6d6d8c9a)
+
+### • Resultado da função "describe" da primeira base de dados:
+
+A função .describe() é uma função do pandas que fornece estatísticas descritivas sobre o nosso dataset. Ela retorna um resumo estatístico que inclui informações como contagem, média, desvio padrão, valor mínimo, valor máximo e quartis (25%, 50% e 75%) para cada coluna numérica da base de dados. Abaixo a imagem dos resultados obtidos sobre a primeira base de dados:
+
+<img width="716" alt="image" src="https://github.com/camilaanacleto/systemInformation/assets/68927480/7ac9206c-603e-45bf-8460-b04569288cea">
+
+
+### • Gráfico do resultado de cada etapa do pré-processamento:
+Ao recebermos a base de dados da equipe do BTG Pactual, verificamos que a coluna "texto", que contém os comentários postados na página oficial do banco no Instagram, possuía um total de 522.820 palavras. No entanto, após a realização das etapas de pré-processamento, esse número foi reduzido.
+A limpeza inicial, que consistiu principalmente na remoção dos comentários do próprio BTG Pactual, reduziu o número para 96.218, demonstrando que a maioria dos comentários eram feitos pela própria instituição e que essa etapa nos ajudou a filtrar as interações que realmente importam para nossa análise.
+A tokenização, por si só, não alterou o número de palavras, mas a remoção dos stop words foi responsável por uma segunda diminuição, reduzindo de 96.218 para 42.283 palavras.
+Por fim, com a etapa de bag of words, onde cada palavra foi apresentada apenas uma vez e acompanhada de sua frequência, chegamos à última parte da redução, caindo de 42.283 para 7.597 palavras, que foram utilizadas em diferentes frequências.
+
+Para ilustrar essas mudanças, apresentamos abaixo um gráfico que acompanha o processo de pré-processamento.
+
+![image](https://github.com/camilaanacleto/systemInformation/assets/68927480/7d0cc88d-1c62-4542-9c3e-4181c0951b1d)
 
 ### • Gráfico da quantidade de comentários positivos, negativos e neutros:
 Na base de dados recebida, uma das colunas apresenta os sentimentos dos comentários. Foi criado um gráfico para ilustrar a distribuição desses sentimentos entre positivo, negativo e neutro. No entanto, é importante destacar que todos os comentários que contêm emojis, independentemente dos emojis utilizados, são classificados como neutros. Isso significa que, embora o gráfico mostre com precisão a distribuição dos sentimentos na base de dados, ele não reflete necessariamente o sentimento real dos usuários, já que os emojis não foram tratados.
 
 ![image](https://github.com/camilaanacleto/systemInformation/assets/68927480/3cb2b518-d106-49df-8bcf-b0549272fa7e)
+
+### Pipeline do Pré-processamento:
+
+A imagem abaixo apresenta um exemplo de como o pipeline de pré-processamento é realizado, etapa fundamental no processamento de dados para garantir que as informações estejam em um formato adequado para serem utilizadas em nossos modelos e análises. Esse pipeline é composto por diversas etapas, desde a coleta e armazenamento dos dados até a aplicação de técnicas de limpeza, transformação e vetorização. No exemplo apresentado, o pipeline envolve a transformação do texto para minúsculo, a remoção de stop words, a tokenização e a vetorização por meio do método bag of words. Cada etapa desempenha um papel importante na preparação dos dados para uso posterior, e o pipeline como um todo é uma parte crítica do nosso processo de análise de dados.
+
+![image](https://github.com/camilaanacleto/systemInformation/assets/68927480/e14eea59-e346-4645-a384-aff3f216e78e)
 
 ### • As 20 palavras que mais se repetem nos comentários:
 
@@ -60,27 +84,28 @@ A seguir, apresentamos as 20 palavras mais frequentes após o pré-processamento
 
 **De acordo com nossas hipóteses, existem colunas que podem não estar relacionadas à verificação do sentimento dos clientes do BTG Pactual por meio dos comentários. São elas:**
 
-- ID: esta informação é sobre a ordem dos comentários no dataset e não tem relação com o sentimento do cliente.
+- ID: Esta informação é sobre a ordem dos comentários no dataset e não tem relação com os sentimentos dos clientes.
 
-- Autor: esta informação é sobre o autor da publicação e não está diretamente relacionada ao sentimento do cliente.
+- Autor: Esta informação é sobre o autor da publicação e não está diretamente relacionada aos sentimentos dos clientes.
 
-- Tipo de Interação: informação que diz respeito sobre a interação do usuário no post (comentário ou resposta) e não está diretamente relacionada ao sentimento do cliente.
+- Tipo de Interação: Informação que diz respeito sobre a interação do usuário no post (comentário ou resposta) e não está diretamente relacionada aos sentimentos dos clientes.
 
-- Link do post: Este é o link da publicação que se refere ao comentário do cliente e não se relaciona com o sentimento do cliente.
+- Link do post: Este é o link da publicação que se refere ao comentário do cliente e não se relaciona com o sentimento dele.
 
-- Processado: informação não diretamente relacionada ao sentimento do cliente.
+- Processado: Informação não diretamente relacionada aos sentimentos dos clientes.
 
-- Contém Hyperlink: informação não diretamente relacionada ao sentimento do cliente.
+- Contém Hyperlink: Informação não diretamente relacionada aos sentimentos dos clientes.
 
-- Probabilidade de anomalia: informação não diretamente relacionada ao sentimento do cliente.
+- Probabilidade de anomalia: Informação não diretamente relacionada aos sentimentos dos clientes.
 
 **Por outro lado, há colunas que têm relação direta com o resultado da análise de sentimento dos clientes:**
 
-- Texto: Esta é a coluna mais importante, pois contém o feedback direto dos clientes sobre os produtos ou serviços.
+- Texto: Esta coluna é fundamental para avaliarmos a satisfação dos clientes em relação aos produtos e serviços do BTG Pactual. Através da análise das palavras-chave extraídas dos textos nessa coluna, podemos identificar os sentimentos expressos pelos clientes em relação ao banco.
 
 - Data da Publicação: A data pode ser útil para detectar tendências temporais e mudanças na percepção do cliente ao longo do tempo.
 
-- Sentimento: Esta coluna é importante, pois é onde está registrado o sentimento do cliente em relação ao produto ou serviço, segundo o dataset do banco.
+- Sentimento: Esta coluna é muito importante, pois é onde está registrado o sentimento do cliente em relação ao produto ou serviço, segundo o dataset do banco.
+
 
 ## **Conclusão:**
 
