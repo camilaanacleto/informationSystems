@@ -1,0 +1,28 @@
+técnicas de aprendizado conjunto (ensemble learning), onde combinamos vários modelos simples para criar um modelo mais robusto e preciso. Vamos explorá-los um a um:
+
+1. Árvores de decisão:
+
+São modelos não-paramétricos que dividem o espaço de dados em regiões cada vez menores, seguindo regras baseadas em atributos.
+Vantagens: interpretabilidade, robustez a outliers, fácil implementação.
+Desvantagens: propensão a overfitting, baixa precisão em dados complexos.
+2. Bagging (e.g. Random Forest):
+
+O bagging constrói um conjunto de árvores de decisão de forma independente, cada uma treinada sobre um subconjunto aleatório dos dados. As previsões são então agregadas (comumente por média) para produzir a previsão final.
+Vantagens: reduz a variância das árvores individuais, melhora a precisão geral, robustez a overfitting.
+Desvantagens: pode não melhorar o viés das árvores base, menos interpretabilidade.
+3. Boosting (e.g. Gradient Boosting):
+
+Ao contrário do bagging, os modelos são construídos sequencialmente. Cada modelo "aprende" dos erros do anterior, focando em áreas onde o anterior teve menos desempenho.
+Vantagens: alta precisão e capacidade de lidar com dados complexos, menor variância e overfitting.
+Desvantagens: "caixa preta" - menos interpretabilidade, potencial de overfitting se não regularizado corretamente.
+4. Stacking:
+
+Stacking combina modelos de diferentes tipos (não apenas árvores de decisão). Cada modelo faz previsões sobre os dados, que são então usados como novas features para treinar um modelo "meta" final.
+Vantagens: pode capturar diferentes padrões dos modelos base, potencialmente alcançar maior precisão.
+Desvantagens: mais complexo de implementar, interpretabilidade ainda menor, potencial de overfitting.
+Resumindo:
+
+Bagging: para reduzir a variância e o overfitting, especialmente com árvores de decisão.
+Boosting: para alta precisão e lidar com dados complexos, mas com menos interpretabilidade.
+Stacking: para combinar diferentes modelos e buscar maior precisão, mas com complexidade e interpretabilidade reduzidas.
+A escolha do melhor método depende do seu problema específico e do trade-off entre precisão, interpretabilidade e complexidade.
